@@ -16,5 +16,4 @@ public class BoardedPanel extends JPanel {
         g.drawRect(0, 0, rec.width, rec.height);
     }
 
-
 }
