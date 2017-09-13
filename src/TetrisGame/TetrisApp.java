@@ -10,12 +10,17 @@ public class TetrisApp {
     private static final String APPNAME = "yayiTetrisGame";
     private static final int WIDTH = 600, HEIGHT = 600;
 
+
     public static void addComponentsToPane(Container pane) {
-        pane.setLayout(null);
+        //pane.setLayout(null);
 
         GamePanel gamePanel = new GamePanel();
+        Cell c = new Cell(0, 0 ,3);
+        c.setPos(7, 6);
 
+        // Add a cell for testing.
         pane.add(gamePanel);
+        pane.add(c);
         gamePanel.setBounds(50, 50, 250, 500);
     }
 

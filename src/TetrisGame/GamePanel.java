@@ -16,10 +16,16 @@ public class GamePanel extends BoardedPanel{
     public GamePanel() {
         setLayout(null);
         setBackground(Color.white);
+
         // Added a pause button into Game Panel
         pauseButton = new JButton(PAUSE);
-
         add(pauseButton);
+
+        // To do : Added a cell into Game Panel
+//        Cell c = new Cell(0, 0, 1);
+//        add(c);
+//        c.setPos(2,2);
+
         pauseButton.setVisible(false);
         pauseButton.setBounds(70, 225, 100, 50);
         addMouseListener(new java.awt.event.MouseAdapter() {
@@ -36,14 +42,5 @@ public class GamePanel extends BoardedPanel{
 
     public static int convert(double x) {
         return (int)(x * UNIT);
-    }
-
-    private static class Funk extends Component {
-
-        public void paint(Graphics g) {
-            super.paint(g);
-            g.drawRect(10, 10, 200, 200);
-            g.setColor(Color.RED);
-        }
     }
 }

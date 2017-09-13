@@ -15,5 +15,4 @@ public class BoardedPanel extends JPanel {
         g.setColor(Color.black);
         g.drawRect(0, 0, rec.width, rec.height);
     }
-
 }
