@@ -6,7 +6,7 @@ import java.awt.*;
 /**
  * Created by yayixu on 9/10/17.
  */
-public class BoardedPanel extends JPanel {
+public class BoardedPanel extends JComponent {
 
     @Override
     public void paintComponent(Graphics g) {
@@ -15,5 +15,4 @@ public class BoardedPanel extends JPanel {
         g.setColor(Color.black);
         g.drawRect(0, 0, rec.width, rec.height);
     }
-
 }
