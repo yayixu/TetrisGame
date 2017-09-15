@@ -2,12 +2,14 @@ package TetrisGame;
 
 import java.awt.*;
 import javax.swing.*;
+
+import static TetrisGame.GamePanel.UNIT;
 import static TetrisGame.GamePanel.convert;
 
 /**
  * Created by yayixu on 9/11/17.
  */
-public class Cell extends Component{
+public class Cell extends JComponent{
     private int x, y, z;
 
     public Cell(int x, int y, int z) {
@@ -17,9 +19,8 @@ public class Cell extends Component{
     }
 
     @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-        System.out.println("Cell's paint() is called!");
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
         draw(g);
     }
 
@@ -47,8 +48,6 @@ public class Cell extends Component{
                 ys[2] = convert(y + 0.5);
                 g.fillPolygon(xs, ys, 3);
                 g.drawPolygon(xs, ys, 3);
-                System.out.println("No.1 cell was drew!");
-
                 break;
             case 2:
                 xs[0] = convert(x + 1);
@@ -69,21 +68,22 @@ public class Cell extends Component{
                 ys[2] = convert(y + 0.5);
                 g.fillPolygon(xs, ys, 3);
                 g.drawPolygon(xs, ys, 3);
-                System.out.println("No.4 cell was drew!");
                 break;
             default:
         }
     }
 
-    public void setPos(int x, int y, int z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
+    public int getZ() {
+        return this.z;
     }
 
-    public void setPos(int x, int y) {
+    public void setStartPoint(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public void setZ(int z) {
+        this.z = z;
     }
 
     @Override
@@ -101,5 +101,27 @@ public class Cell extends Component{
         hash = 7 * hash + this.y;
         hash = 7 * hash + this.z;
         return hash;
+    }
+
+    public void move(int direction) {
+        Rectangle oldBounds = this.getBounds();
+        if (direction == 0) {
+            this.setBounds(oldBounds.x, oldBounds.y + UNIT, oldBounds.width, oldBounds.height);
+        } else if (direction == 1) {
+            this.setBounds(oldBounds.x - UNIT, oldBounds.y, oldBounds.width, oldBounds.height);
+        }else if (direction == 2) {
+            this.setBounds(oldBounds.x + UNIT, oldBounds.y, oldBounds.width, oldBounds.height);
+        }
+        repaint();
+    }
+
+    public void rotate(boolean isClockwise) {
+        if (isClockwise) {
+            setZ((this.z + 1) % 4);
+        } else {
+            setZ((this.z + 3) % 4);
+        }
+        setBounds(x, y, UNIT, UNIT);
+        repaint();
     }
 }
