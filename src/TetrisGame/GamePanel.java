@@ -2,6 +2,9 @@ package TetrisGame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 import java.sql.Time;
 import java.util.*;
 import java.util.List;
@@ -18,6 +21,7 @@ public class GamePanel extends BoardedPanel{
     private static final String PAUSE = "PAUSE";
     private JButton pauseButton;
     private List<Shape> shapes;
+    private Cell cur;
 
     public GamePanel() {
         setBackground(Color.white);
@@ -27,30 +31,38 @@ public class GamePanel extends BoardedPanel{
         add(pauseButton);
 
         // Added a cell into Game Panel.
-        Cell c = new Cell(0, 0, 1);
-        add(c);
-        c.setBounds(2 * UNIT, 0, UNIT, UNIT);
+        cur = new Cell(1);
+        add(cur);
+        cur.setBounds(2 * UNIT, 0, UNIT, UNIT);
 
         Timer timer = new Timer();
 
         // Cell falls down.
-        if (c.getY() < 10 * UNIT) {
-            timer.schedule(new MoveAction(c, 0), 0, 1000);
-        }
-
-        // Cell rotates.
-        //timer.schedule(new RotateAction(c, true), 0, 1000);
+        timer.schedule(new MoveAction(cur, 0), 0, 1000);
 
         pauseButton.setVisible(false);
         pauseButton.setBounds(70, 225, 100, 50);
-        addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
+        addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
                 pauseButton.setVisible(true);
             }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                if (!contains(evt.getPoint())) {
+            public void mouseExited(MouseEvent e) {
+                if (!contains(e.getPoint())) {
                     pauseButton.setVisible(false);
                 }
+            }
+        });
+        addMouseWheelListener(new MouseAdapter() {
+            public void mouseWheelMoved(MouseWheelEvent e) {
+                int notches = e.getWheelRotation();
+                if (notches > 0) {
+                    // mouse moves down
+                    cur.rotate(true);
+                } else {
+                    // mouse moves up
+                    cur.rotate(false);
+                }
+                cur.repaint();
             }
         });
     }
@@ -70,22 +82,17 @@ public class GamePanel extends BoardedPanel{
 
         @Override
         public void run() {
-            mCell.move(mDirec);
-        }
-    }
-
-    public static class RotateAction extends TimerTask {
-        private Cell mCell;
-        private boolean mIsClockwise;
-
-        public RotateAction(Cell cell, boolean isClockwise) {
-            mCell = cell;
-            mIsClockwise = isClockwise;
+            if (canMove(mCell)) {
+                mCell.move(mDirec);
+            }
         }
 
-        @Override
-        public void run() {
-            mCell.rotate(mIsClockwise);
+        private boolean canMove(Cell cell) {
+            if (cell.getType() == 0 || cell.getType() == 2) {
+                return cell.getY() + UNIT < 10 * UNIT;
+            } else {
+                return cell.getY() + 0.5 * UNIT < 10 * UNIT;
+            }
         }
     }
 }
