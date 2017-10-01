@@ -10,9 +10,9 @@ import static TetrisGame.GamePanel.convert;
  * Created by yayixu on 9/11/17.
  */
 public class Cell extends JComponent{
-
     // cell's type
     private int type;
+    private Color color;
 
     public Cell(int type) {
         this.type = type;
@@ -21,13 +21,9 @@ public class Cell extends JComponent{
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        draw(g);
-    }
-
-    public void draw(Graphics g) {
         int[] xs = new int[3];
         int[] ys = new int[3];
-        g.setColor(Color.black);
+        g.setColor(color);
         switch (type) {
             case 0:
                 xs[0] = 0;
@@ -116,5 +112,9 @@ public class Cell extends JComponent{
             setType((this.type + 3) % 4);
         }
         repaint();
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 }

@@ -5,12 +5,9 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
-import java.sql.Time;
-import java.util.*;
 import java.util.List;
 import java.util.Timer;
-
-import static java.lang.Thread.sleep;
+import java.util.TimerTask;
 
 /**
  * Created by yayixu on 9/10/17.
@@ -30,10 +27,9 @@ public class GamePanel extends BoardedPanel{
         pauseButton = new JButton(PAUSE);
         add(pauseButton);
 
-        // Added a cell into Game Panel.
-        cur = new Cell(1);
-        add(cur);
-        cur.setBounds(2 * UNIT, 0, UNIT, UNIT);
+        YellowTriangle triangle = new YellowTriangle();
+        add(triangle);
+        triangle.setBounds(UNIT, 0, 2 * UNIT, UNIT);
 
         Timer timer = new Timer();
 
