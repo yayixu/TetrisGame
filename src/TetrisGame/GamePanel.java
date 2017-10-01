@@ -68,10 +68,14 @@ public class GamePanel extends BoardedPanel{
                 int notches = e.getWheelRotation();
                 if (notches > 0) {
                     // mouse moves down
-                    cur.rotate(true);
+                    if (canRotate(cur)) {
+                        cur.rotate(true);
+                    }
                 } else {
                     // mouse moves up
-                    cur.rotate(false);
+                    if (canRotate(cur)) {
+                        cur.rotate(false);
+                    }
                 }
                 cur.repaint();
             }
@@ -115,6 +119,14 @@ public class GamePanel extends BoardedPanel{
     public boolean canMoveRight(Shape shape) {
         if (shape.state == 0 || shape.state == 2) {
             return shape.getX() + 2 * UNIT < 5 * UNIT;
+        } else {
+            return shape.getX() + UNIT < 5 * UNIT;
+        }
+    }
+
+    public boolean canRotate(Shape shape) {
+        if (shape.state == 0 || shape.state == 2) {
+            return shape.getY() + 2 * UNIT < 10 * UNIT;
         } else {
             return shape.getX() + UNIT < 5 * UNIT;
         }
