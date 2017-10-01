@@ -113,14 +113,14 @@ public class GamePanel extends BoardedPanel{
     }
 
     public boolean canMoveLeft(Shape shape) {
-        return shape.getX() > 0;
+        return shape.getX() > 0 && !hasArrivedBottom(shape) ;
     }
 
     public boolean canMoveRight(Shape shape) {
         if (shape.state == 0 || shape.state == 2) {
-            return shape.getX() + 2 * UNIT < 5 * UNIT;
+            return shape.getX() + 2 * UNIT < 5 * UNIT && !hasArrivedBottom(shape);
         } else {
-            return shape.getX() + UNIT < 5 * UNIT;
+            return shape.getX() + UNIT < 5 * UNIT &&  !hasArrivedBottom(shape);
         }
     }
 
@@ -130,5 +130,9 @@ public class GamePanel extends BoardedPanel{
         } else {
             return shape.getX() + UNIT < 5 * UNIT;
         }
+    }
+
+    public boolean hasArrivedBottom(Shape shape) {
+        return shape.getY() + shape.getHeight() >= 10 * UNIT;
     }
 }
