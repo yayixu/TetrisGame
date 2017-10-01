@@ -80,6 +80,19 @@ public class GamePanel extends BoardedPanel{
                 cur.repaint();
             }
         });
+        addMouseWheelListener(new MouseAdapter() {
+            public void mouseWheelMoved(MouseWheelEvent e) {
+                int notches = e.getWheelRotation();
+                if (notches > 0) {
+                    // mouse moves down
+                    cur.rotate(true);
+                } else {
+                    // mouse moves up
+                    cur.rotate(false);
+                }
+                cur.repaint();
+            }
+        });
     }
 
     public static int convert(double x) {
