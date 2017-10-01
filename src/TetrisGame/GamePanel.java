@@ -18,7 +18,7 @@ public class GamePanel extends BoardedPanel{
     private static final String PAUSE = "PAUSE";
     private JButton pauseButton;
     private List<Shape> shapes;
-    private Cell cur;
+    private Shape cur;
 
     public GamePanel() {
         setBackground(Color.white);
@@ -27,9 +27,9 @@ public class GamePanel extends BoardedPanel{
         pauseButton = new JButton(PAUSE);
         add(pauseButton);
 
-        YellowTriangle triangle = new YellowTriangle();
-        add(triangle);
-        triangle.setBounds(UNIT, 0, 2 * UNIT, UNIT);
+        cur = new YellowTriangle();
+        add(cur);
+        cur.setBounds(UNIT, 0, 2 * UNIT, UNIT);
 
         Timer timer = new Timer();
 
@@ -47,7 +47,22 @@ public class GamePanel extends BoardedPanel{
                     pauseButton.setVisible(false);
                 }
             }
+
+            public void mouseClicked(MouseEvent e) {
+                // mouse left click
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    if (canMoveLeft(cur)) {
+                        cur.move(1);
+                    }
+                    // mouse right click
+                } else if(e.getButton() == MouseEvent.BUTTON3) {
+                    if(canMoveRight(cur)) {
+                        cur.move(2);
+                    }
+                }
+            }
         });
+
         addMouseWheelListener(new MouseAdapter() {
             public void mouseWheelMoved(MouseWheelEvent e) {
                 int notches = e.getWheelRotation();
@@ -67,28 +82,41 @@ public class GamePanel extends BoardedPanel{
         return (int)(x * UNIT);
     }
 
-    public static class MoveAction extends TimerTask {
-        private Cell mCell;
+    public  class MoveAction extends TimerTask {
+        private Shape mShape;
         private int mDirec;
 
-        public MoveAction(Cell cell, int direc) {
-            mCell = cell;
+        public MoveAction(Shape shape, int direc) {
+            mShape = shape;
             mDirec = direc;
         }
 
         @Override
         public void run() {
-            if (canMove(mCell)) {
-                mCell.move(mDirec);
+            if (canMoveDown(mShape)) {
+                mShape.move(mDirec);
             }
         }
+    }
 
-        private boolean canMove(Cell cell) {
-            if (cell.getType() == 0 || cell.getType() == 2) {
-                return cell.getY() + UNIT < 10 * UNIT;
-            } else {
-                return cell.getY() + 0.5 * UNIT < 10 * UNIT;
-            }
+    public boolean canMoveDown(Shape shape) {
+        boolean canMoveDown, canMoveLeft, canMoveRight;
+        if (shape.state == 0 || shape.state == 2) {
+            return shape.getY() + UNIT < 10 * UNIT;
+        } else {
+            return shape.getY() + 2 * UNIT < 10 * UNIT;
+        }
+    }
+
+    public boolean canMoveLeft(Shape shape) {
+        return shape.getX() > 0;
+    }
+
+    public boolean canMoveRight(Shape shape) {
+        if (shape.state == 0 || shape.state == 2) {
+            return shape.getX() + 2 * UNIT < 5 * UNIT;
+        } else {
+            return shape.getX() + UNIT < 5 * UNIT;
         }
     }
 }

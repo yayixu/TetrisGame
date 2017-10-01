@@ -28,17 +28,11 @@ public class YellowTriangle extends Shape {
     public void move(int direction) {
         Rectangle oldBounds = this.getBounds();
         if (direction == 0) {  // move down
-            for (Cell c : cells) {
-                c.setBounds(oldBounds.x, oldBounds.y + UNIT, oldBounds.width, oldBounds.height);
-            }
+            this.setBounds(oldBounds.x, oldBounds.y + UNIT, oldBounds.width, oldBounds.height);
         } else if (direction == 1) { // move to left
-            for (Cell c : cells) {
-                c.setBounds(oldBounds.x - UNIT, oldBounds.y, oldBounds.width, oldBounds.height);
-            }
+            this.setBounds(oldBounds.x - UNIT, oldBounds.y, oldBounds.width, oldBounds.height);
         }else if (direction == 2) { // move to right
-            for (Cell c : cells) {
-                c.setBounds(oldBounds.x + UNIT, oldBounds.y, oldBounds.width, oldBounds.height);
-            }
+            this.setBounds(oldBounds.x + UNIT, oldBounds.y, oldBounds.width, oldBounds.height);
         }
         repaint();
     }
