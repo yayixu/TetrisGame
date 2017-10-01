@@ -27,9 +27,9 @@ public class GamePanel extends BoardedPanel{
         pauseButton = new JButton(PAUSE);
         add(pauseButton);
 
-        cur = new YellowTriangle();
+        cur = new RedTriangle();
         add(cur);
-        cur.setBounds(UNIT, 0, 2 * UNIT, UNIT);
+        cur.setBounds(UNIT, 0, UNIT, UNIT);
 
         Timer timer = new Timer();
 
@@ -104,12 +104,7 @@ public class GamePanel extends BoardedPanel{
     }
 
     public boolean canMoveDown(Shape shape) {
-        boolean canMoveDown, canMoveLeft, canMoveRight;
-        if (shape.state == 0 || shape.state == 2) {
-            return shape.getY() + UNIT < 10 * UNIT;
-        } else {
-            return shape.getY() + 2 * UNIT < 10 * UNIT;
-        }
+        return shape.getY() + shape.getHeight() < 10 * UNIT;
     }
 
     public boolean canMoveLeft(Shape shape) {
@@ -117,11 +112,7 @@ public class GamePanel extends BoardedPanel{
     }
 
     public boolean canMoveRight(Shape shape) {
-        if (shape.state == 0 || shape.state == 2) {
-            return shape.getX() + 2 * UNIT < 5 * UNIT && !hasArrivedBottom(shape);
-        } else {
-            return shape.getX() + UNIT < 5 * UNIT &&  !hasArrivedBottom(shape);
-        }
+        return shape.getX() + shape.getWidth() < 5 * UNIT && !hasArrivedBottom(shape);
     }
 
     public boolean canRotate(Shape shape) {
