@@ -13,6 +13,8 @@ public class YellowTriangle extends Shape {
 
     public YellowTriangle() {
         state = 0;
+        width = 2 * UNIT;
+        height = UNIT;
         cells.add(new Cell(2));
         cells.add(new Cell(3));
         cells.add(new Cell(0));

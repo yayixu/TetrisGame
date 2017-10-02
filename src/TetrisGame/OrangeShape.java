@@ -12,6 +12,8 @@ public class OrangeShape extends Shape {
 
     public OrangeShape() {
         state = 0;
+        width = 2 * UNIT;
+        height = UNIT;
         cells.add(new Cell(2));
         cells.add(new Cell(3));
         cells.add(new Cell(0));

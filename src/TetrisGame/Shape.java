@@ -13,6 +13,7 @@ import static TetrisGame.GamePanel.UNIT;
 public abstract class Shape extends JComponent{
     // the rotation state, default state is 0.
     protected int state;
+    protected int width, height;
 
     protected List<Cell> cells = new ArrayList<>();
 

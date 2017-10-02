@@ -12,6 +12,8 @@ public class GreenShape extends Shape {
 
     public GreenShape() {
         state = 0;
+        width = 2 * UNIT;
+        height = UNIT;
         cells.add(new Cell(1));
         cells.add(new Cell(2));
         cells.add(new Cell(0));

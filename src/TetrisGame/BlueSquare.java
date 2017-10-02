@@ -12,6 +12,8 @@ public class BlueSquare extends Shape {
 
     public BlueSquare() {
         state = 0;
+        width =  UNIT;
+        height = UNIT;
         cells.add(new Cell(0));
         cells.add(new Cell(1));
         cells.add(new Cell(2));

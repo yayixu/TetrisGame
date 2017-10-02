@@ -12,6 +12,8 @@ public class RedTriangle extends Shape {
 
     public RedTriangle() {
         state = 0;
+        width =  UNIT;
+        height = UNIT;
         cells.add(new Cell(0));
         cells.add(new Cell(3));
         for (Cell cell : cells) {
