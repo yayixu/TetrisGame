@@ -14,8 +14,11 @@ public class TetrisApp {
     public static void addComponentsToPane(Container pane) {
         pane.setLayout(null);
         GamePanel gamePanel = new GamePanel();
+        NextPanel nextPanel = new NextPanel();
         pane.add(gamePanel);
+        pane.add(nextPanel);
         gamePanel.setBounds(50, 50, 250, 500);
+        nextPanel.setBounds(350, 50, 200, 100);
     }
 
     /**

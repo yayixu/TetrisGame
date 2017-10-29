@@ -93,18 +93,6 @@ public class Cell extends JComponent{
         return hash;
     }
 
-    public void move(int direction) {
-        Rectangle oldBounds = this.getBounds();
-        if (direction == 0) {  // move down
-            this.setBounds(oldBounds.x, oldBounds.y + UNIT / 2, oldBounds.width, oldBounds.height);
-        } else if (direction == 1) { // move to left
-            this.setBounds(oldBounds.x - UNIT, oldBounds.y, oldBounds.width, oldBounds.height);
-        }else if (direction == 2) { // move to right
-            this.setBounds(oldBounds.x + UNIT, oldBounds.y, oldBounds.width, oldBounds.height);
-        }
-        repaint();
-    }
-
     public void rotate(boolean isClockwise) {
         if (isClockwise) {
             setType((this.type + 1) % 4);
