@@ -96,19 +96,6 @@ public class GamePanel extends BoardedPanel{
                 cur.repaint();
             }
         });
-        addMouseWheelListener(new MouseAdapter() {
-            public void mouseWheelMoved(MouseWheelEvent e) {
-                int notches = e.getWheelRotation();
-                if (notches > 0) {
-                    // mouse moves down
-                    cur.rotate(true);
-                } else {
-                    // mouse moves up
-                    cur.rotate(false);
-                }
-                cur.repaint();
-            }
-        });
     }
 
     public static int convert(double x) {
@@ -156,7 +143,7 @@ public class GamePanel extends BoardedPanel{
             cellX = x + cell.getX() / UNIT;
             cellY = y + cell.getY() / UNIT;
             cellZ = cell.getType();
-            if (cellY >= 9 || !isValid[cellX][cellY + 1][cellZ]) {
+            if (cellY >= 9 || !isValid[cellX][cellY + 1][cellZ] || !cellIsValid(cell, shape)) {
                 res = false;
             }
         }
@@ -188,7 +175,7 @@ public class GamePanel extends BoardedPanel{
             cellX = x + cell.getX() / UNIT;
             cellY = y + cell.getY() / UNIT;
             cellZ = cell.getType();
-            if (cellX >= 4 || !isValid[cellX + 1][cellY][cellZ]) {
+            if (cellX >= 4 || !isValid[cellX + 1][cellY][cellZ]){
                 res = false;
             }
         }
@@ -234,4 +221,37 @@ public class GamePanel extends BoardedPanel{
         return null;
     }
 
+    // check cell's invalid edge cases
+    private boolean cellIsValid(Cell cell, Shape shape) {
+        boolean result = true;
+        int x = shape.getX() / UNIT;
+        int y = shape.getY() / UNIT;
+        int cellX = x + cell.getX() / UNIT;
+        int cellY = y + cell.getY() / UNIT;
+        int cellZ = cell.getType();
+        switch (cellZ) {
+            case 0:
+                if (!isValid[cellX][cellY][3] || !isValid[cellX][cellY + 1][1]) {
+                    result = false;
+                }
+                break;
+            case 1:
+                if (!isValid[cellX][cellY][0] || !isValid[cellX][cellY][1] || !isValid[cellX][cellY][2] || !isValid[cellX][cellY][3]) {
+                    result = false;
+                }
+                break;
+            case 2:
+                if (!isValid[cellX][cellY][3] || !isValid[cellX][cellY + 1][1]) {
+                    result = false;
+                }
+                break;
+            case 3:
+                if (!isValid[cellX][cellY][0] || !isValid[cellX][cellY][1] || !isValid[cellX][cellY][2] || !isValid[cellX][cellY][3]) {
+                    result = false;
+                }
+                break;
+            default:
+        }
+        return result;
+    }
 }

@@ -31,7 +31,7 @@ public class OrangeShape extends Shape {
         setCellsBounds();
 
         Rectangle oldBounds = this.getBounds();
-        if(state ==0)
+        if(state == 0)
         {
             this.setBounds(oldBounds.x, oldBounds.y, 2 * UNIT, UNIT);
         } else
