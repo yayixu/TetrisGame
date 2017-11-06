@@ -12,7 +12,7 @@ import java.util.Timer;
 /**
  * Created by yayixu on 9/10/17.
  */
-public class GamePanel extends BoardedPanel{
+public class GamePanel extends BoardedPanel {
     public static final int UNIT = 50;
     private static final int WIDTH = 5, HEIGHT = 10;
     private static final String PAUSE = "PAUSE";
@@ -41,7 +41,7 @@ public class GamePanel extends BoardedPanel{
         add(pauseButton);
 
         // Initialize a shape.
-        if(shouldGenerate()) {
+        if (shouldGenerate()) {
             cur = generateRandomShape();
             add(cur);
             cur.setBounds(UNIT, 0, cur.width, cur.height);
@@ -58,6 +58,7 @@ public class GamePanel extends BoardedPanel{
             public void mouseEntered(MouseEvent e) {
                 pauseButton.setVisible(true);
             }
+
             public void mouseExited(MouseEvent e) {
                 if (!contains(e.getPoint())) {
                     pauseButton.setVisible(false);
@@ -71,8 +72,8 @@ public class GamePanel extends BoardedPanel{
                         cur.move(1);
                     }
                     // mouse right click
-                } else if(e.getButton() == MouseEvent.BUTTON3) {
-                    if(canMoveRight(cur)) {
+                } else if (e.getButton() == MouseEvent.BUTTON3) {
+                    if (canMoveRight(cur)) {
                         cur.move(2);
                     }
                 }
@@ -96,23 +97,10 @@ public class GamePanel extends BoardedPanel{
                 cur.repaint();
             }
         });
-        addMouseWheelListener(new MouseAdapter() {
-            public void mouseWheelMoved(MouseWheelEvent e) {
-                int notches = e.getWheelRotation();
-                if (notches > 0) {
-                    // mouse moves down
-                    cur.rotate(true);
-                } else {
-                    // mouse moves up
-                    cur.rotate(false);
-                }
-                cur.repaint();
-            }
-        });
     }
 
     public static int convert(double x) {
-        return (int)(x * UNIT);
+        return (int) (x * UNIT);
     }
 
     public class MoveAction extends TimerTask {
@@ -156,7 +144,7 @@ public class GamePanel extends BoardedPanel{
             cellX = x + cell.getX() / UNIT;
             cellY = y + cell.getY() / UNIT;
             cellZ = cell.getType();
-            if (cellY >= 9 || !isValid[cellX][cellY + 1][cellZ]) {
+            if (cellY >= 9 || !isValid[cellX][cellY + 1][cellZ] || !cellIsValid(cell, shape)) {
                 res = false;
             }
         }
@@ -198,7 +186,7 @@ public class GamePanel extends BoardedPanel{
     // need rewrite since each shape's canRotate is different
     public boolean canRotate(Shape shape) {
         //boolean res = true;
-        if(curType == 2 || curType == 3 || curType == 4) {
+        if (curType == 2 || curType == 3 || curType == 4) {
             if (shape.state == 0 || shape.state == 2) {
                 return shape.getY() + 2 * UNIT < 10 * UNIT;
             } else {
@@ -219,7 +207,7 @@ public class GamePanel extends BoardedPanel{
 
     public Shape generateRandomShape() {
         curType = shapeType.nextInt(SHAPE_COUNT);
-        switch(curType) {
+        switch (curType) {
             case 0:
                 return new RedTriangle();
             case 1:
@@ -234,4 +222,39 @@ public class GamePanel extends BoardedPanel{
         return null;
     }
 
+    // check cell's invalid edge cases
+    private boolean cellIsValid(Cell cell, Shape shape) {
+        boolean result = true;
+        int x = shape.getX() / UNIT;
+        int y = shape.getY() / UNIT;
+        int cellX = x + cell.getX() / UNIT;
+        int cellY = y + cell.getY() / UNIT;
+        int cellZ = cell.getType();
+        switch (cellZ) {
+            case 0:
+                if (!isValid[cellX][cellY][3] || !isValid[cellX][cellY + 1][1]) {
+                    result = false;
+                }
+                break;
+            case 1:
+                if (!isValid[cellX][cellY][0] || !isValid[cellX][cellY][1] || !isValid[cellX][cellY][2]
+                        || !isValid[cellX][cellY][3]) {
+                    result = false;
+                }
+                break;
+            case 2:
+                if (!isValid[cellX][cellY][3] || !isValid[cellX][cellY + 1][1]) {
+                    result = false;
+                }
+                break;
+            case 3:
+                if (!isValid[cellX][cellY][0] || !isValid[cellX][cellY][1] || !isValid[cellX][cellY][2]
+                        || !isValid[cellX][cellY][3]) {
+                    result = false;
+                }
+                break;
+            default:
+        }
+        return result;
+    }
 }
